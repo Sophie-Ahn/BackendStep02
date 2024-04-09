@@ -42,7 +42,9 @@ TodoService todoService = TodoService.getInstance();
 * */
 
 public enum TodoService {
-    INSTANCE; // TodoSevice의 객체
+    // TodoSevice의 정적객체
+    //
+    INSTANCE;
 
     public void register(TodoDto todoDTO){
         System.out.println("DEBUG......" + todoDTO);
@@ -66,5 +68,15 @@ public enum TodoService {
         }).collect(Collectors.toList());
 
         return todoDTOS;
+    }
+
+    public TodoDto get(Long tno){
+        TodoDto dto = new TodoDto();
+        dto.setTno(tno);
+        dto.setTitle("Sample Todo");
+        dto.setDueDate(LocalDate.now());
+        dto.setFinished(true);
+
+        return dto;
     }
 }
