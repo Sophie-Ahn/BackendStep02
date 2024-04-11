@@ -43,7 +43,6 @@ TodoService todoService = TodoService.getInstance();
 
 public enum TodoService {
     // TodoSevice의 정적객체
-    //
     INSTANCE;
 
     public void register(TodoDto todoDTO){
