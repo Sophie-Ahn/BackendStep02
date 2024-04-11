@@ -1,4 +1,4 @@
-package org.zerock.jdbcex.domain;
+package org.zerock.w2.domain;
 
 import lombok.*;
 
