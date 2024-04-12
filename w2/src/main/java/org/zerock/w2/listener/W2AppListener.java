@@ -21,6 +21,7 @@ public class W2AppListener implements ServletContextListener {
         sevletContext.setAttribute("appName", "W2");
     }
 
+    // 프로그램이 종료될 때 호출이 된다.
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         log.info("-------------destroy------------------------");
