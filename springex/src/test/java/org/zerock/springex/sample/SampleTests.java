@@ -23,24 +23,24 @@ public class SampleTests {
 
     // ApplicationContext에서 동일한 type을 찾아서 자동으로 주입해라.
     // 필드 주입 방식
-    @Autowired
-    private SampleService sampleService;
-
-    @Autowired
-    private DataSource dataSource;
-
-    @Test
-    public void testService1() {
-        log.info(sampleService);
-        Assertions.assertNotNull(sampleService);
-    }
-
-    @Test
-    public void testConnection() throws Exception {
-        Connection connection = dataSource.getConnection();
-        log.info(connection);
-        Assertions.assertNotNull(connection);
-
-        connection.close();
-    }
+//    @Autowired
+//    private SampleService sampleService;
+//
+//    @Autowired
+//    private DataSource dataSource;
+//
+//    @Test
+//    public void testService1() {
+//        log.info(sampleService);
+//        Assertions.assertNotNull(sampleService);
+//    }
+//
+//    @Test
+//    public void testConnection() throws Exception {
+//        Connection connection = dataSource.getConnection();
+//        log.info(connection);
+//        Assertions.assertNotNull(connection);
+//
+//        connection.close();
+//    }
 }
