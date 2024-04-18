@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.springex.domain.TodoVo;
+import org.zerock.springex.dto.PageRequestDto;
+import org.zerock.springex.dto.PageResponseDto;
 import org.zerock.springex.dto.TodoDto;
 
 import java.time.LocalDate;
@@ -28,6 +30,17 @@ public class TodoServiceTests {
                 .build();
 
         todoService.register(todoDto);
+    }
+
+    @Test
+    public void testPaging(){
+        PageRequestDto pageRequestDto = PageRequestDto.builder().page(1).size(10).build();
+
+        PageResponseDto<TodoDto> pageResponseDto = todoService.getList(pageRequestDto);
+
+        log.info(pageResponseDto);
+
+        pageResponseDto.getDtoList().stream().forEach(todoDto -> log.info(todoDto));
     }
 
 }

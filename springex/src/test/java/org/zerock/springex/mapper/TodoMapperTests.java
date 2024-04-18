@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.springex.domain.TodoVo;
+import org.zerock.springex.dto.PageRequestDto;
+import org.zerock.springex.dto.TodoDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,5 +48,36 @@ public class TodoMapperTests {
         TodoVo todoVo = todoMapper.selectOne(3L);
 
         log.info(todoVo);
+    }
+
+    @Test
+    public void testSelectList(){
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        List<TodoVo> voList = todoMapper.selectList(pageRequestDto);
+
+        voList.forEach(vo -> log.info(vo));
+    }
+
+    @Test
+    public void testSelectSearch(){
+        PageRequestDto pageRequestDto = PageRequestDto.builder()
+                .page(1)
+                .size(10)
+                .types(new String[]{"t", "w"})
+                .keyword("스프링")
+//                .finished(true)
+                .from(LocalDate.of(2021,12,01))
+                .to(LocalDate.of(2022,12,31))
+                .build();
+
+        List<TodoVo> voList = todoMapper.selectList(pageRequestDto);
+
+        voList.forEach(vo -> log.info(vo));
+
+        log.info(todoMapper.getCount(pageRequestDto));
     }
 }
