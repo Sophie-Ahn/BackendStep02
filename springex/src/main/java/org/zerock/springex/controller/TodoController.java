@@ -62,7 +62,7 @@ public class TodoController {
 
     /* 웹에서 보내오는 parameter들이
     * TodoDto 내부의 필드들의 이름과 매칭되면 todoDto객체 내부에 저장된다.
-    * */
+    */
     @PostMapping("/register")
     public String registerPost(@Valid TodoDto todoDto, BindingResult bindingResult, RedirectAttributes redirectAttributes){
         log.info("post todo register...........");
