@@ -4,8 +4,13 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.zerock.b01.domain.Board;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -35,6 +40,8 @@ public class BoardRepositoryTests {
     public void testSelect(){
         Long bno = 100L;
 
+        // Board값이 혹시라도 정상적이지 않을까봐
+        // Optional을 통해서 정상적으로 받을 수 있게 해줌
         Optional<Board> result = boardRepository.findById(bno);
 
         Board board = result.orElseThrow();
@@ -64,5 +71,63 @@ public class BoardRepositoryTests {
         Long bno = 1L;
 
         boardRepository.deleteById(bno);
+    }
+
+    @Test
+    public void testPaging(){
+        Pageable pageable = PageRequest.of(10,10, Sort.by("bno").descending());
+        Page<Board> result = boardRepository.findAll(pageable);
+
+        log.info("total count: " + result.getTotalElements());
+        log.info("total pages: " + result.getTotalPages());
+        log.info("page number: " + result.getNumber());
+        log.info("page size: " + result.getSize());
+
+        List<Board> todoList = result.getContent();
+
+        todoList.forEach(board -> log.info(board));
+    }
+
+//    @Test
+//    public void testTime(){
+//        String nowTime = boardRepository.getTime();
+//        log.info("nowTime : " + nowTime);
+//    }
+//
+//    @Test
+//    public void testKeyword(){
+//        Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+//        Page<Board> result = boardRepository.findKeyword("1", pageable);
+//        List<Board> todoList = result.getContent();
+//        todoList.forEach(board -> log.info(board));
+//    }
+
+    @Test
+    public void testSearch1(){
+        Pageable pageable = PageRequest.of(1,10, Sort.by("bno").descending());
+        boardRepository.search1(pageable);
+    }
+
+    @Test
+    public void testSearchAll(){
+        String[] types = {"t", "c", "w"};
+        String keyword = "1";
+        Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+        Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+    }
+
+    @Test
+    public void testSearchAll2(){
+        String[] types = {"t", "c", "w"};
+        String keyword = "1";
+        Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+        Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+
+        log.info(result.getTotalElements());
+        log.info(result.getSize());
+        log.info(result.getNumber());
+        log.info(result.hasPrevious() + " : " + result.hasNext());
+
+        result.getContent().forEach(board -> log.info(board));
     }
 }

@@ -18,7 +18,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Board {
+public class Board extends BaseEntity{
 
     /*
     * @Id 는 Pk(Primary key)로 정의한다는 의미
