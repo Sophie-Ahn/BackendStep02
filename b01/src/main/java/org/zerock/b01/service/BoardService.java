@@ -1,6 +1,8 @@
 package org.zerock.b01.service;
 
 import org.zerock.b01.dto.BoardDto;
+import org.zerock.b01.dto.PageRequestDto;
+import org.zerock.b01.dto.PageResponseDto;
 
 public interface BoardService {
     Long register(BoardDto boardDto); // 등록: 여러가지 데이터를 입력해야해서 dto를 넣음
@@ -10,4 +12,6 @@ public interface BoardService {
     void modify(BoardDto boardDto); // 수정: 여러 데이터를 수정해야해서 dto 사용
 
     void remove(Long bno); // 삭제: 특정 번호에 대해서 전체적으로 다 삭제하기 때문에 bno
+
+    PageResponseDto<BoardDto> list(PageRequestDto pageRequestDto);
 }

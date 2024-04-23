@@ -6,25 +6,25 @@ import lombok.ToString;
 
 import java.util.List;
 
+/*
+* Controller에서 view로 Pagination을 하기 위해서
+* 전송하는 클래스
+*/
+
 @Getter
 @ToString
 public class PageResponseDto<E> {
-    private int page;
-    private int size;
-    private int total;
+    private int page; // 몇 페이지
+    private int size; // 한 개 페이지의 크기
+    private int total; // 전체 row 갯수
 
-    // 시작페이지 번호
-    private int start;
+    private int start; // 현재 페이지에서 page 시작 숫자
+    private int end; // 현재 페이지에서 page 끝 숫자
 
-    // 끝 페이지 번호
-    private int end;
+    private boolean prev; // 앞에 이동할 부분이 있는지
+    private boolean next; // 뒤에 이동할 부분이 있는지
 
-    // 이전 페이지의 존재 여부
-    private boolean prev;
-    // 다음 페이지의 존재 여부
-    private boolean next;
-
-    private List<E> dtoList;
+    private List<E> dtoList; // 이 페이지에 보여줄 row 리스트
 
     @Builder(builderMethodName = "withAll")
     public PageResponseDto(PageRequestDto pageRequestDto, List<E> dtoList, int total){

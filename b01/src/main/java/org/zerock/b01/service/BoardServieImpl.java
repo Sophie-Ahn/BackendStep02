@@ -3,13 +3,19 @@ package org.zerock.b01.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.Board;
 import org.zerock.b01.dto.BoardDto;
+import org.zerock.b01.dto.PageRequestDto;
+import org.zerock.b01.dto.PageResponseDto;
 import org.zerock.b01.repository.BoardRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -53,5 +59,24 @@ public class BoardServieImpl implements BoardService{
     @Override
     public void remove(Long bno) {
         boardRepository.deleteById(bno);
+    }
+
+    @Override
+    public PageResponseDto<BoardDto> list(PageRequestDto pageRequestDto) {
+
+        String[] types = pageRequestDto.getTypes();
+        String keyword = pageRequestDto.getKeyword();
+        Pageable pageable = pageRequestDto.getPageable("bno");
+
+        Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+
+        List<BoardDto> dtoList = result.getContent().stream()
+                .map(board -> modelMapper.map(board, BoardDto.class)).collect(Collectors.toList());
+
+        return PageResponseDto.<BoardDto>withAll()
+                .pageRequestDto(pageRequestDto)
+                .dtoList(dtoList)
+                .total((int)result.getTotalElements())
+                .build();
     }
 }
