@@ -3,7 +3,7 @@ package org.zerock.b01.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.zerock.b01.domain.Board;
-import org.zerock.b01.search.BoardSearch;
+import org.zerock.b01.repository.search.BoardSearch;
 
 /*
 * 인터페이스를 만들고

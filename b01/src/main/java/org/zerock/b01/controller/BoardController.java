@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.BoardDto;
+import org.zerock.b01.dto.BoardListReplyCountDto;
 import org.zerock.b01.dto.PageRequestDto;
 import org.zerock.b01.dto.PageResponseDto;
 import org.zerock.b01.service.BoardService;
@@ -28,13 +29,22 @@ import javax.validation.Valid;
 public class BoardController {
     private final BoardService boardService;
 
+//    @GetMapping("/list")
+//    public void list(PageRequestDto pageRequestDto, Model model){
+//        PageResponseDto<BoardDto> responseDto = boardService.list(pageRequestDto);
+//        log.info(responseDto);
+//        model.addAttribute("responseDto", responseDto);
+//
+//        // templates/board/list에 pageRequest와 responseDto가 request에 담겨서 전달된다.
+//    }
+
     @GetMapping("/list")
     public void list(PageRequestDto pageRequestDto, Model model){
-        PageResponseDto<BoardDto> responseDto = boardService.list(pageRequestDto);
+//        PageResponseDto<BoardDto> responseDto = boardService.list(pageRequestDto);
+
+        PageResponseDto<BoardListReplyCountDto> responseDto = boardService.listWithReplyCount(pageRequestDto);
         log.info(responseDto);
         model.addAttribute("responseDto", responseDto);
-
-        // templates/board/list에 pageRequest와 responseDto가 request에 담겨서 전달된다.
     }
 
     @GetMapping("/register")
