@@ -49,11 +49,11 @@ public class ReplyController {
 
         Map<String, Long> resultMap = new HashMap<>();
 
+        // 브라우저한테는 200 ok 헤더정보와 함께 resultMap이 json으로 전달된다.
         Long rno = replyService.register(replyDto);
-
+//        resultMap.put("rno", 111L);
         resultMap.put("rno", rno);
 
-        // 브라우저한테는 200 ok 헤더정보와 함께 resultMap이 json으로 전달된다.
         return resultMap;
     }
 

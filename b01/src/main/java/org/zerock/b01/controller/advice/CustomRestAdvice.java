@@ -33,6 +33,7 @@ public class CustomRestAdvice {
             });
         }
 
+        // 400에러를 errorMap과 함께 전송
         return ResponseEntity.badRequest().body(errorMap);
     }
 
@@ -61,6 +62,4 @@ public class CustomRestAdvice {
 
         return ResponseEntity.badRequest().body(errorMap);
     }
-
-
 }
