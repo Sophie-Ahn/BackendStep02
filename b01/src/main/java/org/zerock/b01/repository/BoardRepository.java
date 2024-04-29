@@ -1,9 +1,12 @@
 package org.zerock.b01.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.zerock.b01.domain.Board;
 import org.zerock.b01.repository.search.BoardSearch;
+
+import java.util.Optional;
 
 /*
 * 인터페이스를 만들고
@@ -23,6 +26,10 @@ public interface BoardRepository extends JpaRepository<Board, Long>, BoardSearch
 
     @Query(value = "select now()", nativeQuery = true)
     String getTime();
+
+    @EntityGraph(attributePaths = {"imageSet"})
+    @Query("select b from Board b where b.bno =:bno")
+    Optional<Board> findByIdWithImages(Long bno);
 
     // 1) 쿼리메서드
     // https://spring.io/projects/spring-data-jpa

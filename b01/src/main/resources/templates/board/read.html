@@ -53,82 +53,92 @@
                             </a>
                         </div>
                     </div>
+
                 </div><!--end card body-->
-            </div><!--end card-->
-        </div><!-- end col-->
-    </div><!-- end row-->
 
-    <div class="row mt-3">
-        <div class="col-md-12">
-            <div class="my-4 ">
-                <button class="btn btn-info  addReplyBtn">ADD REPLY</button>
-            </div>
-            <ul class="list-group replyList">
-            </ul>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col">
-            <ul class="pagination replyPaging">
-            </ul>
-        </div>
-    </div>
-
-
-    <div class="modal registerModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Register Reply</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Reply Text</span>
-                        <input type="text" class="form-control replyText" >
+                <div class="col">
+                    <div class="card" th:if="${dto.fileNames != null && dto.fileNames.size() > 0}">
+                        <img class="card-img-top"
+                             th:each="fileName: ${dto.fileNames}"
+                             th:src="|/view/${fileName}|">
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Replyer</span>
-                        <input type="text" class="form-control replyer" >
-                    </div>
+
+                </div><!--end card-->
+            </div><!-- end col-->
+        </div><!-- end row-->
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="my-4 ">
+                    <button class="btn btn-info  addReplyBtn">ADD REPLY</button>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary registerBtn">Register</button>
-                    <button type="button" class="btn btn-outline-dark closeRegisterBtn" >Close</button>
-                </div>
+                <ul class="list-group replyList">
+                </ul>
             </div>
         </div>
-    </div>
-    <!-- end regist modal -->
+        <div class="row mt-3">
+            <div class="col">
+                <ul class="pagination replyPaging">
+                </ul>
+            </div>
+        </div>
 
-    <div class="modal modifyModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title replyHeader"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Reply Text</span>
-                        <input type="text" class="form-control modifyText" >
+
+        <div class="modal registerModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Register Reply</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info modifyBtn">Modify</button>
-                    <button type="button" class="btn btn-danger removeBtn">Remove</button>
-                    <button type="button" class="btn btn-outline-dark closeModifyBtn">Close</button>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Reply Text</span>
+                            <input type="text" class="form-control replyText" >
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Replyer</span>
+                            <input type="text" class="form-control replyer" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary registerBtn">Register</button>
+                        <button type="button" class="btn btn-outline-dark closeRegisterBtn" >Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> <!--modifyModal -->
+        <!-- end regist modal -->
+
+        <div class="modal modifyModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title replyHeader"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Reply Text</span>
+                            <input type="text" class="form-control modifyText" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info modifyBtn">Modify</button>
+                        <button type="button" class="btn btn-danger removeBtn">Remove</button>
+                        <button type="button" class="btn btn-outline-dark closeModifyBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div> <!--modifyModal -->
 
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script src="/js/reply.js"></script>
+        <script src="/js/reply.js"></script>
 
-</div>
+    </div>
+</div><!-- layout fragment end -->
 
 
 <script layout:fragment="script" th:inline="javascript">
@@ -179,7 +189,6 @@
     function printReplies(page,size,goLast){
 
         getList({bno, page,size, goLast}).then(
-            // PageResopnseDto<ReplyDto> responseDto -> json -> data에 저장
             data => {
                 printList(data.dtoList) //목록 처리
                 printPages(data) //페이지 처리
@@ -201,12 +210,10 @@
     const closeRegisterBtn = document.querySelector(".closeRegisterBtn")
 
 
-    // 댓글 등록창 띄우기
     document.querySelector(".addReplyBtn").addEventListener("click", function (e){
         registerModal.show()
     },false)
 
-    // 댓글 등록창 닫기
     closeRegisterBtn.addEventListener("click", function (e){
         registerModal.hide()
     },false)
@@ -217,7 +224,6 @@
             replyText:replyText.value,
             replyer:replyer.value}
 
-        // addReply의 비동기 요청의 결과가 도착하면
         addReply(replyObj).then(result => {
             alert(result.rno)
             registerModal.hide()
@@ -239,7 +245,6 @@
         e.preventDefault()
         e.stopPropagation()
 
-        // 누가 데이터페이지를 접속했나
         const target = e.target
 
         if(!target || target.tagName != 'A'){
@@ -332,7 +337,8 @@
             console.log(e)
         })
     },false)
+
+
+
 </script>
-
-
 

@@ -1,9 +1,10 @@
 package org.zerock.b01.service;
 
-import org.zerock.b01.dto.BoardDto;
-import org.zerock.b01.dto.BoardListReplyCountDto;
-import org.zerock.b01.dto.PageRequestDto;
-import org.zerock.b01.dto.PageResponseDto;
+import org.zerock.b01.domain.Board;
+import org.zerock.b01.dto.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public interface BoardService {
     Long register(BoardDto boardDto); // 등록: 여러가지 데이터를 입력해야해서 dto를 넣음
@@ -18,4 +19,44 @@ public interface BoardService {
 
     //댓글의 숫자까지 처리
     PageResponseDto<BoardListReplyCountDto> listWithReplyCount(PageRequestDto pageRequestDto);
+
+    // 게시글의 이미지와 댓글의 숫자까지 처리
+    PageResponseDto<BoardListAllDto> listWithAll(PageRequestDto pageRequestDto);
+
+    default Board dtoToEntity(BoardDto boardDto){
+        Board board = Board.builder()
+                .bno(boardDto.getBno())
+                .title(boardDto.getTitle())
+                .content(boardDto.getContent())
+                .writer(boardDto.getWriter())
+                .build();
+
+        if(boardDto.getFileNames() != null){
+            boardDto.getFileNames().forEach(fileName -> {
+                String[] arr = fileName.split("_");
+                board.addImage(arr[0], arr[1]);
+            });
+        }
+
+        return board;
+    }
+
+    default BoardDto entityToDto(Board board){
+
+        BoardDto boardDto = BoardDto.builder()
+                .bno(board.getBno())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .writer(board.getWriter())
+                .regDate(board.getRegDate())
+                .modDate(board.getModDate())
+                .build();
+
+        List<String> fileNames = board.getImageSet().stream().sorted().map(boardImage ->
+                boardImage.getUuid()+"_" +boardImage.getFileName()).collect(Collectors.toList());
+
+        boardDto.setFileNames(fileNames);
+
+        return boardDto;
+    }
 }
