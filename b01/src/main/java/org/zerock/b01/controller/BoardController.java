@@ -147,7 +147,7 @@ public class BoardController {
         log.info(boardDto.getFileNames());
         List<String> fileNames = boardDto.getFileNames();
         if(fileNames != null && fileNames.size() > 0){
-            removeFiles(fileNames);
+            removeFile(fileNames);
         }
 
         redirectAttributes.addFlashAttribute("result" + "removed");
@@ -155,7 +155,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    public void removeFiles(List<String> files){
+    public void removeFile(List<String> files){
         for(String fileName : files){
             Resource resource = new FileSystemResource(uploadPath + File.separator + fileName);
 

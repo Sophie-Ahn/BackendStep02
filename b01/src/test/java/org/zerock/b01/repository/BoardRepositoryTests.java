@@ -214,8 +214,15 @@ public class BoardRepositoryTests {
     public void testRemoveAll(){
         Long bno = 1L;
 
+        // Reply -> Board로 연결되어 있으므로
+        // 직접 지워야 한다.
         replyRepository.deleteByBoard_Bno(bno);
 
+        // Board <-> BoardImage 양방향 연결이고
+        // 아래 설정에 의해서 board의 row를 지우면
+        // 참조하는 자식 boardImage의 row도 삭제된다.
+        //CascadeType.ALL
+        //orphanRemoval = true
         boardRepository.deleteById(bno);
     }
 
